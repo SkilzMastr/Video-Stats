@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Showdata from './Showdata'
+import API from './API'
 
 export default function Findvid() {
     
@@ -17,7 +17,7 @@ export default function Findvid() {
         <div>
             <label>
                 <input ref={urlRef} type="text" placeholder="Enter YouTube URL"/>
-                <button onClick={<Showdata id={removeData}/>} id="submit">Search</button>
+                <button onClick={<API id={removeData}/>} id="submit">Search</button>
             </label>
         </div>
     )
