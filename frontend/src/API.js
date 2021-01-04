@@ -1,28 +1,34 @@
-import React from 'react'
-const request =require('request')
+import React, { Component, useRef} from 'react'
+const axios = require('axios')
 require('dotenv').config();
 
-export default function API({ id }) {
+
+export default class API extends Component {
     
-    constructor(info); {
-        super(info);
+    
+
+    constructor() {
+        super();
         this.state = {
-            views: JSON.stringify(fetch())["views"],
+            urlRef: useRef(),
+            views: "Channel Info"
         };
     }
+    
 
 
-
-    function fetch() {
-        request(process.env.API_URL || `http://localhost:5000/video/${id}`, { json: true }, (err, resp, body)=>{
-            if (err) { return console.error(err);}
-            
+    res = ()=> {
+        axios.get(`process.env.API_URL || http://localhost:5000/video/${this.state.id}`).then((response)=>{
+            console.log(response.data.items["statistics"].viewCount)
         })
     }
     
-    return (
-        <div>
-            <h1>{info.views}</h1>
-        </div>
-    )
+    render() {
+        return (
+            <div>
+                <input ref={urlRef} type="text" placeholder="Enter YouTube URL"/>
+                <button onClick={this.res} id="submit">Search</button>
+            </div>
+        )
+    }
 }
