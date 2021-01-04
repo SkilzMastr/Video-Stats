@@ -16,7 +16,10 @@ export default class API extends Component {
             comments: "",
             likes: "",
             dislikes: "",
-            favorites: ""
+            favorites: "",
+            thumbnail: "",
+            channel: "",
+            maxRes: "about:blank"
         };
     }
     
@@ -37,7 +40,10 @@ export default class API extends Component {
 
         axios.get((process.env.API_URL || `http://localhost:5000`)+'/title/'+this.removeData()).then((response)=>{
             this.setState({
-                title: response.data.items[0].snippet.title
+                title: response.data.items[0].snippet.title,
+                thumbnail: response.data.items[0].snippet.thumbnails.medium.url,
+                channel: response.data.items[0].snippet.channelTitle,
+                maxRes: response.data.items[0].snippet.thumbnails.maxres.url
             })
 
         })
@@ -52,11 +58,15 @@ export default class API extends Component {
         return (
             <div>
                 <label>
+                    <a href={this.state.maxRes} download>
+                        <img src={this.state.thumbnail} alt=""/>
+                    </a>
                     <form>
                         <input ref={this.urlRef} type="text" placeholder="Enter YouTube URL"/>
                         <button type="reset" onClick={this.res} id="submit">Search</button>
                     </form>
                     <h4>Video: {this.state.title}</h4>
+                    <h4>Channel: {this.state.channel}</h4>
                     <h4>Views: {this.state.views}</h4>
                     <h4>Likes: {this.state.likes}</h4>
                     <h4>Comments: {this.state.comments}</h4>
