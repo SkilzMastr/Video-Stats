@@ -26,7 +26,7 @@ export default class API extends Component {
 
 
     res = ()=> {
-        axios.get(process.env.API_URL + '/stats/'+this.removeData()).then((response)=>{
+        axios.get((process.env.API_URL || 'http://localhost:5000') + '/stats/'+this.removeData()).then((response)=>{
             
             this.setState({
                 views: response.data.items[0].statistics.viewCount,
@@ -38,7 +38,7 @@ export default class API extends Component {
         
         })
 
-        axios.get(process.env.API_URL +'/title/'+this.removeData()).then((response)=>{
+        axios.get((process.env.API_URL || 'http://localhost:5000') +'/title/'+this.removeData()).then((response)=>{
             this.setState({
                 title: response.data.items[0].snippet.title,
                 thumbnail: response.data.items[0].snippet.thumbnails.medium.url,
