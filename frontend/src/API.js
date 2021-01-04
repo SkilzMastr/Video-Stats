@@ -11,29 +11,58 @@ export default class API extends Component {
         super();
         this.urlRef = React.createRef();
         this.state = {
-            views: "Channel Info"
+            title: "",
+            views: "",
+            comments: "",
+            likes: "",
+            dislikes: "",
+            favorites: ""
         };
     }
     
 
 
     res = ()=> {
-        axios.get(process.env.API_URL || `http://localhost:5000/video/${this.removeData()}`).then((response)=>{
-            console.log(response.data.items["statistics"].viewCount)
+        axios.get((process.env.API_URL || `http://localhost:5000`)+'/stats/'+this.removeData()).then((response)=>{
+            
+            this.setState({
+                views: response.data.items[0].statistics.viewCount,
+                comments: response.data.items[0].statistics.commentCount,
+                likes: response.data.items[0].statistics.likeCount,
+                dislikes: response.data.items[0].statistics.dislikeCount,
+                favorites: response.data.items[0].statistics.favoriteCount
+            })
+        
+        })
+
+        axios.get((process.env.API_URL || `http://localhost:5000`)+'/title/'+this.removeData()).then((response)=>{
+            this.setState({
+                title: response.data.items[0].snippet.title
+            })
+
         })
     }
 
     removeData = ()=>{
         var url = this.urlRef.current.value
-        return url.slice(32, url.length)
+        return url.substr(url.length-11, url.length)
     }
     
     render() {
         return (
             <div>
                 <label>
-                    <input ref={this.urlRef} type="text" placeholder="Enter YouTube URL"/>
-                    <button onClick={this.res} id="submit">Search</button>
+                    <form>
+                        <input ref={this.urlRef} type="text" placeholder="Enter YouTube URL"/>
+                        <button type="reset" onClick={this.res} id="submit">Search</button>
+                    </form>
+                    <h4>Video: {this.state.title}</h4>
+                    <h4>Views: {this.state.views}</h4>
+                    <h4>Likes: {this.state.likes}</h4>
+                    <h4>Comments: {this.state.comments}</h4>
+                    <h4>Dislikes: {this.state.dislikes}</h4>
+                    <h4>Favorites: {this.state.favorites}</h4>
+
                 </label>
             </div>
         )
