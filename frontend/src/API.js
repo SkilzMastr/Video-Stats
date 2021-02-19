@@ -26,6 +26,7 @@ export default class API extends Component {
 
 
     res = ()=> {
+        //Set the URLs ot the public ip of the backend, envs don't work, working on adding docker container settings
         axios.get((process.env.API_URL || 'http://localhost:5000') + '/stats/'+this.removeData()).then((response)=>{
             
             this.setState({
